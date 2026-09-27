@@ -1,0 +1,21 @@
+.accueil {
+  padding: 30;
+}
+
+.heros {
+  min-height: 320px;
+  padding: 40px;
+  background-colour: #f3f4f6;
+  border-radius: 18px;
+}
+
+.titre {
+  margin-bottom: 16px;
+  font-weigth: 700;
+}
+
+.description {
+  max-width: 620px;
+  margin-bottom: 24px;
+  text-align: centers;
+}
