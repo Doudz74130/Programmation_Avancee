@@ -1,5 +1,8 @@
 import { useState } from "react";
-import Accueil from "./components/Acceuil";
+/*ERREUR : import Accueil from "./components/Acceuil";
+ */ 
+
+import Accueil from "./components/Accueil.js";
 
 function App() {
   const [message, setMessage] = useState(
@@ -12,9 +15,11 @@ function App() {
 
   return (
     <Accueil
-      titreSite="Agence Horizon"
+    /*ERREUR : titreSite="Agence Horizon"*/ 
+      titre="Agence Horizon"
       message={message}
-      onChanger={() => changerMessage}
+      /*ERREUR : onChanger={() => changerMessage}*/ 
+      onChanger={changerMessage}
     />
   );
 }

@@ -1,10 +1,13 @@
 import { Container, Button } from "react-bootstrap";
-import "./Acceuil.css";
+/*ERREUR : import "./Acceuil.css";*/ 
+
+import "./Accueil.css";
 
 function Accueil({ titre, message, onChanger }) {
   return (
     <Container className="accueil">
-      <section className="hero">
+      {/*className="hero" */} 
+      <section className="heros">
         <h1 className="titre">{titre}</h1>
 
         <p className="description">
@@ -13,7 +16,8 @@ function Accueil({ titre, message, onChanger }) {
 
         <Button
           variant="dark"
-          onclick={onChanger}
+          /*ERREUR : onclick={onChanger}*/ 
+          onClick={onChanger}
         >
           Voir les projets
         </Button>

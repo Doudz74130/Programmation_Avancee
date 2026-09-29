@@ -1,21 +1,25 @@
 .accueil {
-  padding: 30;
+  /* ERREUR : padding: 30 */
+  padding: 30px;
 }
 
 .heros {
   min-height: 320px;
   padding: 40px;
-  background-colour: #f3f4f6;
+  /*ERREUR : background-colour*/
+  background-color: #f3f4f6;
   border-radius: 18px;
 }
 
 .titre {
   margin-bottom: 16px;
-  font-weigth: 700;
+  /* ERREUR : font-weigth */
+  font-weight: 700;
 }
 
 .description {
   max-width: 620px;
   margin-bottom: 24px;
-  text-align: centers;
+  /* ERREUR : text-align: centers */
+  text-align: center;
 }
