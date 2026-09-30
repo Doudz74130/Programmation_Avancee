@@ -1,3 +1,4 @@
+
 # TP1 — Agence financière immobilière
 
 **Programmation avancée — 420-VA9-LP**
@@ -18,8 +19,51 @@ Autres commandes :
 
 ```bash
 npm run build   # version de production dans build/
-npm test        # lance les tests
 ```
+
+---
+
+# Corrections du code de départ
+
+Le projet fourni par l'enseignante contenait des erreurs volontaires. Je les ai repérées et corrigées pour que l'application démarre et s'affiche correctement.
+
+## Erreurs qui empêchaient le projet de compiler
+
+Sans ces corrections, le serveur affichait « Failed to compile » et rien ne s'affichait dans le navigateur.
+
+| Fichier                       | Erreur                                                                                | Correction                 |
+| ----------------------------- | ------------------------------------------------------------------------------------- | -------------------------- |
+| `src/App.js`                | `import Accueil from "./components/Acceuil"` — le fichier s'appelle `Accueil.js` | `"./components/Accueil"` |
+| `src/App.js`                | prop`titreSite="Agence Horizon"` alors que le composant attend `titre`            | `titre="Agence Horizon"` |
+| `src/components/Accueil.js` | `onclick={onChanger}` en minuscules, React exige `onClick`                        | `onClick={onChanger}`    |
+| `src/components/Accueil.js` | `import "./Acceuil.css"` — le fichier s'appelle `Accueil.css`                    | `"./Accueil.css"`        |
+
+## Erreurs dans le CSS
+
+Ces erreurs ne bloquaient pas la compilation, mais les styles ne s'appliquaient pas : le navigateur ignore silencieusement une propriété CSS mal orthographiée.
+
+| Fichier                        | Erreur                                              | Correction             |
+| ------------------------------ | --------------------------------------------------- | ---------------------- |
+| `src/components/Accueil.css` | `padding: 30` sans unité, la valeur est ignorée | `padding: 30px`      |
+| `src/components/Accueil.css` | `background-colour` n'existe pas en CSS           | `background-color`   |
+| `src/components/Accueil.css` | `font-weigth` (faute de frappe)                   | `font-weight`        |
+| `src/components/Accueil.css` | `text-align: centers`                             | `text-align: center` |
+
+## Autre erreur trouvée
+
+| Fichier        | Erreur                                                                                                                                                     | Correction                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `src/App.js` | `onChanger={() => changerMessage}` passait la référence à la fonction au lieu de l'appeler : le bouton « Voir les projets » ne faisait rien au clic | `onChanger={changerMessage}` |
+
+## Problème d'accord entre le JSX et le CSS
+
+Le composant utilisait `className="hero"` sur la balise `<section>`, alors que la feuille de style définissait la classe `.heros`. Les deux noms ne correspondaient pas, donc le style ne s'appliquait pas. J'ai accordé les deux sur `heros`.
+
+En JavaScript, une classe CSS mal orthographiée ne produit aucune erreur : le style est simplement ignoré. C'est ce qui rend ces erreurs difficiles à repérer sans regarder la page.
+
+## Ménage effectué
+
+Suppression des fichiers fournis par Create React App qui n'étaient plus utilisés : `src/App.css`, `src/App.test.js` et `src/logo.svg`. Ils n'étaient importés nulle part dans le projet.
 
 ---
 

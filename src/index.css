@@ -1,13 +1,44 @@
+:root {
+  --marine: #12303f;
+  --marine-clair: #1d4a60;
+  --accent: #c9a227;
+  --accent-clair: #e0bc4a;
+
+  --fond: #f6f7f9;
+  --surface: #ffffff;
+  --bordure: #e3e7ec;
+  --texte: #1c2b33;
+  --texte-doux: #64748b;
+
+  --rayon: 14px;
+  --rayon-petit: 8px;
+  --ombre: 0 1px 2px rgba(18, 48, 63, 0.06), 0 8px 24px rgba(18, 48, 63, 0.07);
+  --ombre-forte: 0 4px 8px rgba(18, 48, 63, 0.08), 0 20px 44px rgba(18, 48, 63, 0.16);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background-color: var(--fond);
+  color: var(--texte);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--marine);
+}
+
+a {
+  color: var(--marine-clair);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

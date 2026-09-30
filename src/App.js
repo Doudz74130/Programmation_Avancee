@@ -1,26 +1,39 @@
 import { useState } from "react";
-/*ERREUR : import Accueil from "./components/Acceuil";
- */ 
-
-import Accueil from "./components/Accueil.js";
+import Menu from "./components/Menu";
+import Accueil from "./components/Accueil";
+import Projets from "./components/Projets";
+import ProjetDetail from "./components/ProjetDetail";
+import projetsInitiaux from "./data/Projects";
 
 function App() {
-  const [message, setMessage] = useState(
-    "Nous accompagnons nos clients dans leurs projets immobiliers."
-  );
+  const [sectionActive, setSectionActive] = useState("accueil");
+  const [projets] = useState(projetsInitiaux);
+  const [projetChoisi, setProjetChoisi] = useState(null);
 
-  const changerMessage = () => {
-    setMessage("Découvrez bientôt nos projets immobiliers.");
+  const voirProjets = () => {
+    setProjetChoisi(null);
+    setSectionActive("projets");
   };
 
   return (
-    <Accueil
-    /*ERREUR : titreSite="Agence Horizon"*/ 
-      titre="Agence Horizon"
-      message={message}
-      /*ERREUR : onChanger={() => changerMessage}*/ 
-      onChanger={changerMessage}
-    />
+    <>
+      <Menu sectionActive={sectionActive} onChangerSection={setSectionActive} />
+
+      {projetChoisi ? (
+        <ProjetDetail
+          projet={projetChoisi}
+          onRetour={() => setProjetChoisi(null)}
+        />
+      ) : sectionActive === "accueil" ? (
+        <Accueil onVoirProjets={voirProjets} />
+      ) : sectionActive === "projets" ? (
+        <Projets projets={projets} onOuvrirProjet={setProjetChoisi} />
+      ) : (
+        <section className="py-5 text-center text-muted">
+          Section en construction.
+        </section>
+      )}
+    </>
   );
 }
 

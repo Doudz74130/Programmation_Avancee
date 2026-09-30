@@ -1,0 +1,68 @@
+.barre {
+  background-color: var(--marine);
+  padding: 14px 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+.marque {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: var(--rayon-petit);
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px;
+}
+
+.slogan {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.liens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.lien {
+  background: none;
+  border: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 4px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.lien:hover {
+  color: #ffffff;
+}
+
+.lienActif {
+  color: #ffffff;
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 575.98px) {
+  .slogan {
+    display: none;
+  }
+
+  .marque {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,40 @@
+.zone {
+  max-width: 1180px;
+}
+
+.entete {
+  margin-bottom: 28px;
+  padding-top: 8px;
+}
+
+.etiquette {
+  display: block;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.titre {
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  margin-bottom: 8px;
+}
+
+.soustitre {
+  color: var(--texte-doux);
+  margin-bottom: 0;
+}
+
+.compteur {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background-color: var(--surface);
+  border: 1px solid var(--bordure);
+  color: var(--marine);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
