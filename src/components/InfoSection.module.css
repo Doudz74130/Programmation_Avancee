@@ -1,0 +1,91 @@
+/* Mise en page commune aux trois sections d'information :
+   Services, A Propos et Nous joindre.
+   Ces sections ne font qu'afficher du contenu, sans interaction. */
+
+.largeur {
+  max-width: 1180px;
+}
+
+.entete {
+  margin-bottom: 28px;
+  padding-top: 8px;
+}
+
+.etiquette {
+  display: block;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.titre {
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  margin-bottom: 10px;
+}
+
+.soustitre {
+  color: var(--texte-doux);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 680px;
+  margin-bottom: 0;
+}
+
+.texte {
+  color: var(--texte-doux);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+
+/* Le dernier paragraphe d'un panneau ne doit pas ajouter d'espace avant le bord. */
+.texte:last-child {
+  margin-bottom: 0;
+}
+
+/* Panneau blanc utilisé pour chaque bloc de contenu. */
+.panneau {
+  background-color: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  padding: 26px;
+  box-shadow: var(--ombre);
+  height: 100%;
+}
+
+.panneauTitre {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+/* Etiquette d'une information de contact (Adresse, Telephone, etc.). */
+.contactLabel {
+  display: block;
+  color: var(--texte-doux);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.contactValeur {
+  color: var(--marine);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Un lien de contact : telephone ou courriel. */
+.lien {
+  color: var(--marine);
+  text-decoration: none;
+}
+
+.lien:hover {
+  color: var(--marine-clair);
+  text-decoration: underline;
+}

@@ -2,6 +2,9 @@ import { Container } from "react-bootstrap";
 import styles from "./Menu.module.css";
 import logo from "../assets/Logo.png";
 
+// Menu de navigation du site.
+// Il reçoit la section affichée et une fonction du parent.
+// La classe du lien change selon la section active : c'est du style conditionnel.
 function Menu({ sectionActive, onChangerSection }) {
   const sections = [
     { id: "accueil", label: "Accueil" },
@@ -16,13 +19,14 @@ function Menu({ sectionActive, onChangerSection }) {
 
   return (
     <header className={styles.barre}>
-      <Container className="d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <Container className="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div className={styles.marque}>
-          <img src={logo} alt="Logo de l'agence" className={styles.logo} />
-          <div>
-            <div>Agence Horizon</div>
-            <p className={styles.slogan}>Immobilier et investissement</p>
-          </div>
+          <img
+            src={logo}
+            alt="Logo de l'agence Horizon"
+            className={styles.logo}
+          />
+          <p className={styles.slogan}>Immobilier et investissement</p>
         </div>
 
         <nav className={styles.liens}>

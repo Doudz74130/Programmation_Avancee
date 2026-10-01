@@ -1,0 +1,81 @@
+/* Curseur à deux poignées pour choisir un intervalle.
+   Le rendu suit le style demandé : une ligne, deux poignées rondes,
+   et les deux valeurs affichées sous la ligne. */
+
+.curseur {
+  padding-top: 6px;
+}
+
+/* Valeurs affichées au-dessus : de ... à ... */
+.valeurs {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--marine);
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.separateur {
+  color: var(--texte-doux);
+  font-weight: 400;
+}
+
+/* Zone de la piste : c'est ici qu'on capte le glissement. */
+.piste {
+  position: relative;
+  height: 26px;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+/* La ligne grise, sur toute la largeur. */
+.rail {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background-color: var(--bordure);
+}
+
+/* La portion sélectionnée entre les deux poignées. */
+.remplissage {
+  position: absolute;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background-color: var(--marine);
+}
+
+/* Les deux poignées rondes. */
+.poignee {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid var(--marine);
+  box-shadow: 0 1px 3px rgba(18, 48, 63, 0.2);
+  cursor: grab;
+}
+
+.poignee:active {
+  cursor: grabbing;
+}
+
+/* Les bornes de l'intervalle, sous la ligne. */
+.bornes {
+  display: flex;
+  justify-content: space-between;
+  color: var(--texte-doux);
+  font-size: 0.72rem;
+  margin-top: 6px;
+}

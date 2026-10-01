@@ -63,30 +63,6 @@
   margin-bottom: 20px;
 }
 
-.statut {
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.enCours {
-  background-color: #fdf3d7;
-  color: #7a5f00;
-}
-
-.termine {
-  background-color: #e3f3ec;
-  color: #1d6a4f;
-}
-
-.aVenir {
-  background-color: #e7edf1;
-  color: var(--marine);
-}
-
 .description {
   color: var(--texte-doux);
   line-height: 1.7;

@@ -1,38 +1,44 @@
 import { useState } from "react";
 import Menu from "./components/Menu";
-import Accueil from "./components/Accueil";
-import Projets from "./components/Projets";
-import ProjetDetail from "./components/ProjetDetail";
+import Contenu from "./components/Contenu";
 import projetsInitiaux from "./data/Projects";
 
+// App garde les états principaux et les fonctions qui les modifient.
+// Les données descendent vers les enfants par props.
 function App() {
   const [sectionActive, setSectionActive] = useState("accueil");
-  const [projets] = useState(projetsInitiaux);
+  const [projets, setProjets] = useState(projetsInitiaux);
   const [projetChoisi, setProjetChoisi] = useState(null);
 
-  const voirProjets = () => {
+  // Changer de section referme aussi le détail d'un projet.
+  const changerSection = (section) => {
     setProjetChoisi(null);
-    setSectionActive("projets");
+    setSectionActive(section);
+  };
+
+  const voirProjets = () => {
+    changerSection("projets");
+  };
+
+  // filter() crée une nouvelle liste sans le projet visé,
+  // puis setProjets remplace l'ancienne liste par la nouvelle.
+  const retirerProjet = (id) => {
+    setProjets(projets.filter((projet) => projet.id !== id));
   };
 
   return (
     <>
-      <Menu sectionActive={sectionActive} onChangerSection={setSectionActive} />
+      <Menu sectionActive={sectionActive} onChangerSection={changerSection} />
 
-      {projetChoisi ? (
-        <ProjetDetail
-          projet={projetChoisi}
-          onRetour={() => setProjetChoisi(null)}
-        />
-      ) : sectionActive === "accueil" ? (
-        <Accueil onVoirProjets={voirProjets} />
-      ) : sectionActive === "projets" ? (
-        <Projets projets={projets} onOuvrirProjet={setProjetChoisi} />
-      ) : (
-        <section className="py-5 text-center text-muted">
-          Section en construction.
-        </section>
-      )}
+      <Contenu
+        sectionActive={sectionActive}
+        projets={projets}
+        projetChoisi={projetChoisi}
+        onVoirProjets={voirProjets}
+        onOuvrirProjet={setProjetChoisi}
+        onRetourProjet={() => setProjetChoisi(null)}
+        onRetirerProjet={retirerProjet}
+      />
     </>
   );
 }

@@ -246,7 +246,7 @@ Les cas d'utilisation décrivent ce que l'utilisateur peut faire sur le site.
 ## CU04 — Filtrer les projets et enlever le filtre
 
 - **Acteur principal :** Utilisateur
-- **Objectif :** Voir seulement les projets qui correspondent à un critère, puis pouvoir revoir tous les projets
+- **Objectif :** Voir seulement les projets qui correspondent aux critères choisis, puis pouvoir revoir tous les projets
 - **Préconditions :** La section Projets est affichée et il y a au moins un projet
 
 **Scénario nominal (le chemin idéal)**
@@ -256,6 +256,19 @@ Les cas d'utilisation décrivent ce que l'utilisateur peut faire sur le site.
 3. Le système met la liste à jour et affiche seulement les projets qui correspondent.
 4. Le système montre quel critère est actif.
 5. L'utilisateur choisit ensuite « Tous » et revoit tous les projets.
+
+**Critères disponibles**
+
+Les filtres sont regroupés en quatre critères, qui peuvent être combinés :
+
+| Critère | Contrôle | Valeurs possibles |
+| --- | --- | --- |
+| Type de projet | Boutons | Tous · Résidentiel · Commercial · Terrain · Mixte |
+| Statut | Boutons | Tous · En cours · Terminé · À venir |
+| Prix | Curseur à deux poignées | De 0 $ à 8 000 000 $, par tranches de 100 000 $ |
+| Superficie | Curseur à deux poignées | De 0 m² à 35 000 m², par tranches de 500 m² |
+
+Les deux curseurs sont au maximum au départ, donc tous les projets sont affichés. On réduit l'intervalle pour ne garder que les projets dont le prix ou la superficie tombe à l'intérieur.
 
 **Conditions et scénarios alternatifs (si... alors...)**
 
@@ -384,91 +397,104 @@ Cette fiche regroupe les trois sections d'information : Services, À propos et N
 
 # Arbre des composants
 
-J'ai un état `sectionActive` dans App. Selon sa valeur, une seule section s'affiche à la fois. On n'utilise pas de librairie de routage.
+`App` garde un état `sectionActive`. Selon sa valeur, `Contenu` affiche une seule section à la fois : c'est l'affichage conditionnel. On n'utilise pas de librairie de routage.
 
 ```text
-App                              état : sectionActive, projets
+App                              état : sectionActive, projets, projetChoisi
 │
-├── Header                       props : sectionActive, onChangerSection
-│   └── NavBar (React-Bootstrap)
-│       └── Nav.Link × 5         Accueil · Projets · Services · À propos · Nous joindre
+├── Menu                         props : sectionActive, onChangerSection
+│   └── 5 boutons                Accueil · Projets · Services · À propos · Nous joindre
 │
-└── Section affichée (selon sectionActive)
+└── Contenu                      affiche la section selon sectionActive
     │
-    ├── Accueil                  props : onChangerSection
+    ├── Accueil                  props : onVoirProjets
     │
-    ├── Projets                  props : projets, onRetirerProjet
-    │   │                        état : filtreActif
-    │   ├── FiltreProjets        props : filtreActif, onChangerFiltre
-    │   │                        (boutons de filtre + bouton « Tous »)
-    │   ├── ProjectCard × 12     props : projet, onRetirerProjet
-    │   └── Message vide         affiché si aucun projet ne correspond au filtre
+    ├── Projets                  props : projets, onOuvrirProjet, onRetirerProjet
+    │   │                        état : type, statut, prix, superficie
+    │   ├── FiltreProjets        props : les 4 filtres + leurs 4 fonctions
+    │   │   │                    2 groupes de boutons : type de projet et statut
+    │   │   └── Curseur × 2      props : bornes, valeurs, onChanger, formater
+    │   │                        un curseur pour le prix, un pour la superficie
+    │   ├── Alert                message affiché si aucun projet ne correspond
+    │   └── ProjectCard × 12     props : projet, onOuvrir, onRetirer
     │
-    ├── Services
-    ├── APropos
-    └── NousJoindre
+    ├── Services                 aucune prop, aucun état
+    ├── APropos                  aucune prop, aucun état
+    ├── NousJoindre              aucune prop, aucun état
+    │
+    └── ProjetDetail             remplace la section si un projet est choisi
+                                 props : projet, onRetour
 ```
 
 ## Ce que fait chaque composant
 
-| Composant         | Rôle                                                                                                                 | Props reçues                           | État géré                   |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------------------ |
-| `App`           | Composant principal. Garde la section affichée et la liste des projets. Contient la fonction pour retirer un projet. | —                                      | `sectionActive`, `projets` |
-| `Header`        | Affiche le menu et montre la section active.                                                                          | `sectionActive`, `onChangerSection` | —                             |
-| `Accueil`       | Présente l'agence et ses activités, avec un bouton vers les projets.                                                | `onChangerSection`                    | —                             |
-| `Projets`       | Affiche les projets, calcule la liste filtrée avec`filter()` et garde le filtre actif.                             | `projets`, `onRetirerProjet`        | `filtreActif`                |
-| `FiltreProjets` | Affiche les boutons de filtre et montre lequel est actif.                                                             | `filtreActif`, `onChangerFiltre`    | —                             |
-| `ProjectCard`   | Affiche les informations d'un projet et permet de le retirer.                                                         | `projet`, `onRetirerProjet`         | —                             |
-| `Services`      | Présente les services de l'agence.                                                                                   | —                                      | —                             |
-| `APropos`       | Présente l'agence, sa mission et ses valeurs.                                                                        | —                                      | —                             |
-| `NousJoindre`   | Affiche les coordonnées de l'agence.                                                                                 | —                                      | —                             |
+| Composant | Rôle | Props reçues | État géré |
+| --- | --- | --- | --- |
+| `App` | Garde les états principaux et les fonctions qui les modifient. | — | `sectionActive`, `projets`, `projetChoisi` |
+| `Menu` | Affiche les 5 sections et met en évidence celle qui est active. | `sectionActive`, `onChangerSection` | — |
+| `Contenu` | Affiche la bonne section selon `sectionActive`. C'est ici que se fait l'affichage conditionnel. | `sectionActive`, `projets`, `projetChoisi` + les fonctions | — |
+| `Accueil` | Présente l'agence et ses activités, avec un bouton vers les projets. | `onVoirProjets` | — |
+| `Projets` | Calcule la liste filtrée avec `filter()` et affiche les cartes avec `map()`. | `projets`, `onOuvrirProjet`, `onRetirerProjet` | `type`, `statut`, `prix`, `superficie` |
+| `FiltreProjets` | Affiche les deux groupes de boutons et les deux curseurs, et montre quel filtre est actif. | `type`, `statut`, `prix`, `superficie` + les 4 fonctions | — |
+| `Curseur` | Curseur réutilisable à deux poignées pour choisir un intervalle. Utilisé pour le prix et pour la superficie. | `min`, `max`, `pas`, `valeurMin`, `valeurMax`, `onChanger`, `formater` | — |
+| `ProjectCard` | Affiche les informations d'un projet, avec le badge de statut et les boutons. | `projet`, `onOuvrir`, `onRetirer` | — |
+| `ProjetDetail` | Affiche la fiche complète d'un projet sélectionné. | `projet`, `onRetour` | — |
+| `Services` | Présente les services de l'agence. | — | — |
+| `APropos` | Présente l'agence, ses activités et ses valeurs. | — | — |
+| `NousJoindre` | Affiche les coordonnées de l'agence. | — | — |
 
 ## Réutilisation
 
 - `ProjectCard` est écrite une seule fois et utilisée pour les 12 projets. Je ne recopie pas le JSX de la carte.
-- `FiltreProjets` est écrite une seule fois, peu importe le nombre de critères.
-- La fonction pour retirer un projet est écrite une seule fois dans `App` et passée à toutes les cartes.
+- `FiltreProjets` est écrite une seule fois et couvre les quatre critères de filtre.
+- La fonction de retrait est écrite une seule fois dans `App` et passée à toutes les cartes.
+- `Services`, `APropos` et `NousJoindre` partagent le même CSS Module (`InfoSection.module.css`), puisque leur mise en page est identique.
+- Les deux groupes de boutons de `FiltreProjets` utilisent la même fonction `variantFiltre` et la même structure de rendu.
+- `Curseur` est écrite une seule fois et réutilisée pour le prix et pour la superficie.
 
 ## Comment les données circulent
 
-1. `App` a la liste des projets et la donne à `Projets` avec la prop `projets`.
-2. `Projets` utilise `filter()` sur cette liste selon son état `filtreActif`.
-3. Les projets sont transformés en cartes avec `map()`, avec `key={projet.id}`.
-4. Chaque `ProjectCard` reçoit un seul projet dans la prop `projet`, plus la fonction `onRetirerProjet`.
-5. Quand on clique, la fonction remonte jusqu'à `App`, qui refait une nouvelle liste avec `filter()` et met à jour son état.
-6. Pareil pour `Header`, qui remonte le changement de section à `App` avec la prop `onChangerSection`.
+1. `App` garde la liste des projets et la donne à `Contenu` par la prop `projets`.
+2. `Contenu` la transmet à `Projets` quand la section Projets est active.
+3. `Projets` applique `filter()` sur cette liste selon ses états `type`, `statut`, `prix` et `superficie`.
+4. Les projets restants sont transformés en cartes avec `map()`, avec `key={projet.id}`.
+5. Chaque `ProjectCard` reçoit un seul projet par la prop `projet`, plus les fonctions `onOuvrir` et `onRetirer`.
+6. Quand on clique sur « Retirer », la fonction remonte jusqu'à `App`, qui refait une nouvelle liste avec `filter()` et met à jour son état.
+7. Pareil pour `Menu`, qui remonte le changement de section à `App` par `onChangerSection`.
 
-Pourquoi j'ai mis les états à ces endroits :
+Pourquoi les états sont à ces endroits :
 
-- **`projets` dans `App`** : c'est la donnée utilisée par plusieurs composants et elle change quand on retire un projet. Si je la mets dans `App`, `Projets` peut la recevoir par props et faire remonter le retrait.
-- **`sectionActive` dans `App`** : `Header` a besoin de savoir quelle section est active, et la section affichée dépend de ça. Les deux sont frères, donc l'état va chez leur parent.
-- **`filtreActif` dans `Projets`** : c'est le seul composant qui en a besoin pour calculer la liste filtrée. Le mettre plus haut ne servirait à rien.
+- **`projets` dans `App`** : c'est la donnée partagée par plusieurs sections, et elle doit être modifiée par le retrait d'un projet.
+- **`projetChoisi` dans `App`** : le détail d'un projet remplace la section affichée, donc l'état doit être au-dessus de `Contenu`.
+- **`sectionActive` dans `App`** : `Menu` doit savoir quelle section est active et `Contenu` doit savoir laquelle afficher.
+- **`type`, `statut`, `prix` et `superficie` dans `Projets`** : c'est le seul composant qui en a besoin pour calculer la liste affichée.
 
 ## Organisation des fichiers
 
 ```text
 src/
-├── App.js
-├── index.js
-├── index.css
+├── App.js                       états principaux + fonctions
+├── index.js                     point d'entrée, importe Bootstrap
+├── index.css                    palette de couleurs et styles globaux
 ├── components/
-│   ├── Header.js                + Header.module.css
+│   ├── Menu.js                  + Menu.module.css
+│   ├── Contenu.js               affichage conditionnel des sections
 │   ├── Accueil.js               + Accueil.module.css
 │   ├── Projets.js               + Projets.module.css
 │   ├── FiltreProjets.js         + FiltreProjets.module.css
 │   ├── ProjectCard.js           + ProjectCard.module.css
-│   ├── Services.js              + Services.module.css
-│   ├── APropos.js               + APropos.module.css
-│   └── NousJoindre.js           + NousJoindre.module.css
-└── data/
-    └── projets.js               les projets
+│   ├── ProjetDetail.js          + ProjetDetail.module.css
+│   ├── Services.js              ┐
+│   ├── APropos.js               ├ + InfoSection.module.css (partagé)
+│   └── NousJoindre.js           ┘
+├── data/
+│   └── Projects.js              les 12 projets
+└── assets/                      images du site et des projets
 ```
 
-L'interface utilise React-Bootstrap, et un CSS Module par composant pour garder les styles locaux et éviter les conflits de noms de classes.
+L'interface utilise React-Bootstrap pour les composants d'affichage, et un CSS Module par composant pour garder les styles locaux et éviter les conflits de noms de classes.
 
 ## Ce qui peut changer
-
-Cet arbre est une première version, il peut évoluer pendant que je code :
 
 - si un composant ne sert à rien, je le fusionne avec un autre ;
 - si je vois que je répète du code, je peux créer un composant réutilisable ;
@@ -480,11 +506,20 @@ Cet arbre est une première version, il peut évoluer pendant que je code :
 
 À la fin, je dois avoir un site immobilier qui fonctionne, qui est accessible et agréable à utiliser, et qui permet de découvrir l'agence et de consulter ses projets.
 
-# Sources des images
+# Sources
+
+**Images**
 
 - `src/assets/Agence.png` et `src/assets/Logo.png` : ressources fournies avec le projet de départ.
-- Images des projets : à compléter.
+- Photos des projets : [Pexels](https://www.pexels.com) — photographes scottwebb, mgshotz, egorkomarov, pixabay, tobilobababs, danielwells67, netoo, ranamatloob567, tigran-arutyunyan, fotodruk, introspectivedsgn.
+
+**Textes**
+
+- Les textes des sections Services et À propos ont été rédigés d'après les sites de [Dominia](https://dominia.ca/a-propos/) et de [Groupe Montoni](https://groupemontoni.com/fr/compagnie), adaptés aux activités de l'agence du TP.
+- Le reste du contenu (présentation de l'agence, description des 12 projets, coordonnées) est fictif et a été écrit pour ce travail.
 
 # Capture d'écran
 
-À insérer avant la remise finale : `docs/capture-finale.png`
+![Résultat final](docs/capture-finale.png)
+
+La capture montre la liste des projets avec les filtres et les cartes.

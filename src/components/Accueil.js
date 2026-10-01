@@ -6,7 +6,9 @@ function Accueil({ onVoirProjets }) {
     <Container className={`py-4 ${styles.largeur}`}>
       <section id="accueil" className={styles.hero}>
         <div className={styles.interieur}>
-          <span className={styles.etiquette}>Agence financière immobilière</span>
+          <span className={styles.etiquette}>
+            Agence financière immobilière
+          </span>
 
           <h1 className={styles.titre}>Agence Horizon</h1>
 

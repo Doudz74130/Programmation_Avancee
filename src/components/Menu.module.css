@@ -7,20 +7,22 @@
 .marque {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   color: #ffffff;
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
 
+/* Le logo contient déjà le nom de l'agence. Sur le fond marine, on le pose
+   sur une pastille blanche pour qu'il reste lisible. */
 .logo {
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
+  display: block;
+  width: 150px;
+  height: auto;
+  padding: 6px 10px;
   border-radius: var(--rayon-petit);
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 4px;
+  background-color: #ffffff;
 }
 
 .slogan {
@@ -62,7 +64,7 @@
     display: none;
   }
 
-  .marque {
-    font-size: 1rem;
+  .logo {
+    width: 118px;
   }
 }

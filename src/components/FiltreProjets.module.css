@@ -1,0 +1,64 @@
+.barre {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 22px;
+  margin-bottom: 28px;
+  background-color: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+/* Ligne du haut : les deux critères à boutons, côte à côte. */
+.ligne {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+}
+
+/* Ligne du bas : les deux curseurs, chacun sur la moitié de la largeur. */
+.curseurs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--bordure);
+}
+
+.groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legende {
+  color: var(--texte-doux);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+.boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bouton {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 12px;
+}
+
+@media (max-width: 575.98px) {
+  .barre {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .ligne {
+    gap: 16px;
+  }
+}

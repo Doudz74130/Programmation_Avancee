@@ -1,13 +1,15 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Badge } from "react-bootstrap";
 import styles from "./ProjetDetail.module.css";
 
-function classeStatut(statut) {
-  if (statut === "Terminé") return `${styles.statut} ${styles.termine}`;
-  if (statut === "À venir") return `${styles.statut} ${styles.aVenir}`;
-  return `${styles.statut} ${styles.enCours}`;
-}
-
+// Vue détaillée d'un projet sélectionné.
+// Elle reçoit le projet par props et une fonction pour revenir à la liste.
 function ProjetDetail({ projet, onRetour }) {
+  const couleurStatut = (statut) => {
+    if (statut === "Terminé") return "success";
+    if (statut === "À venir") return "dark";
+    return "warning";
+  };
+
   return (
     <Container className={`py-4 ${styles.largeur}`}>
       <button type="button" className={styles.retour} onClick={onRetour}>
@@ -16,11 +18,7 @@ function ProjetDetail({ projet, onRetour }) {
 
       <Row className="g-4 align-items-stretch">
         <Col xs={12} lg={7}>
-          <img
-            src={projet.image}
-            alt={projet.titre}
-            className={styles.image}
-          />
+          <img src={projet.image} alt={projet.titre} className={styles.image} />
         </Col>
 
         <Col xs={12} lg={5}>
@@ -31,7 +29,7 @@ function ProjetDetail({ projet, onRetour }) {
 
             <p className={styles.meta}>
               <span>{projet.ville}</span>
-              <span className={classeStatut(projet.statut)}>{projet.statut}</span>
+              <Badge bg={couleurStatut(projet.statut)}>{projet.statut}</Badge>
             </p>
 
             <p className={styles.description}>{projet.description}</p>
